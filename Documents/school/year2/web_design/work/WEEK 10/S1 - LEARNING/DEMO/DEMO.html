@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>DOM Manipulation Demo</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f9f9f9;
+      }
+      #container {
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: white;
+      }
+      .item {
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f1f1f1;
+        cursor: pointer;
+      }
+      #actions {
+        margin-top: 15px;
+        padding-top: 10px;
+        border-top: 1px solid #ddd;
+      }
+      button {
+        margin: 5px 5px 5px 0;
+        padding: 8px 12px;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      input {
+        padding: 8px;
+        margin-right: 5px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>DOM Manipulation Demo</h1>
+
+    <div id="container">
+      <h2 id="containerTitle">Item List</h2>
+
+      <!-- LIST -->
+      <ul id="itemList">
+        <li class="item">Item 1</li>
+        <li class="item">Item 2</li>
+        <li class="item">Item 3</li>
+      </ul>
+
+      <!-- SHOW / HIDE ACTIONS -->
+      <button id="toggleActions">Show / Hide Actions</button>
+
+      <!-- ACTIONS PANEL -->
+      <div id="actions">
+        <button id="printItems">Print Items</button>
+        <button id="changeColor">Change color</button>
+        <button id="changeTitle">Change Title</button>
+
+        <br /><br />
+
+        <!-- ADD ITEM WITH INPUT -->
+        <input type="text" id="newItemText" placeholder="New item text" />
+        <button id="addItem">Add Item</button>
+      </div>
+    </div>
+
+    <script>
+      // ----- ACTION FUNCTIONS -----
+
+      function onPrintItems() {
+        const items = document.getElementById("itemList").children;
+        for (const item of items) {
+          console.log(item.textContent);
+        }
+      }
+
+      function onChangeColor() {
+        const secondItem = document.getElementById("itemList").children[1];
+        secondItem.style.backgroundColor = "lightblue";
+      }
+
+      function onChangeTitle() {
+        document.getElementById("containerTitle").textContent =
+          "Updated Items List";
+      }
+
+      function onAddItem() {
+        const input = document.getElementById("newItemText");
+        const text = input.value;
+
+        if (text === "") return;
+
+        const li = document.createElement("li");
+        li.textContent = text;
+        li.className = "item";
+        li.addEventListener("click", onItemClick);
+
+        document.getElementById("itemList").appendChild(li);
+        input.value = "";
+      }
+
+      function onItemClick(event) {
+        event.target.style.fontWeight = "bold";
+      }
+
+      function onToggleActions() {
+        const actionsDiv = document.getElementById("actions");
+        actionsDiv.style.display =
+          actionsDiv.style.display === "none" ? "block" : "none";
+      }
+
+      // ----- EVENT BINDING -----
+
+      document
+        .getElementById("printItems")
+        .addEventListener("click", onPrintItems);
+
+      document
+        .getElementById("changeColor")
+        .addEventListener("click", onChangeColor);
+
+      document
+        .getElementById("changeTitle")
+        .addEventListener("click", onChangeTitle);
+
+      document
+        .getElementById("addItem")
+        .addEventListener("click", onAddItem);
+
+      document
+        .getElementById("toggleActions")
+        .addEventListener("click", onToggleActions);
+
+      // Item click handlers
+      const items = document.getElementById("itemList").children;
+      for (const item of items) {
+        item.addEventListener("click", onItemClick);
+      }
+    </script>
+  </body>
+</html>
